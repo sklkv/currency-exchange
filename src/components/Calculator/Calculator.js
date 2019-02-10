@@ -57,30 +57,51 @@ class Calculator extends Component {
 
   selectCurrencyAmount = name => event => {
     if (name === 'fromCurrency') {
-      this.setState({
-        fromCurrency: {
-          name: this.state.fromCurrency.name,
-          rate: this.state.fromCurrency.rate,
-          amount: event.target.value,
+      this.setState(
+        {
+          fromCurrency: {
+            name: this.state.fromCurrency.name,
+            rate: this.state.fromCurrency.rate,
+            amount: event.target.value,
+          },
         },
-      });
+        this.calculate(name),
+      );
     } else if (name === 'toCurrency') {
-      this.setState({
-        toCurrency: {
-          name: this.state.toCurrency.name,
-          rate: this.state.toCurrency.rate,
-          amount: event.target.value,
+      this.setState(
+        {
+          toCurrency: {
+            name: this.state.toCurrency.name,
+            rate: this.state.toCurrency.rate,
+            amount: event.target.value,
+          },
         },
-      });
+        this.calculate(name),
+      );
     }
   };
 
   calculate = name => {
-    let amount;
     if (name === 'fromCurrency') {
-      amount = this.state.fromCurrency.amount;
-    } else {
-      amount = this.state.toCurrency.amount;
+      const toCurrencyValue =
+        (this.state.fromCurrency.amount * this.state.toCurrency.rate) / this.state.fromCurrency.rate;
+      this.setState({
+        toCurrency: {
+          name: this.state.toCurrency.name,
+          rate: this.state.toCurrency.rate,
+          amount: toCurrencyValue,
+        },
+      });
+    } else if (name === 'toCurrency') {
+      const fromCurrencyValue =
+        (this.state.toCurrency.amount * this.state.fromCurrency.rate) / this.state.toCurrency.rate;
+      this.setState({
+        fromCurrency: {
+          name: this.state.toCurrency.name,
+          rate: this.state.toCurrency.rate,
+          amount: fromCurrencyValue,
+        },
+      });
     }
   };
 
