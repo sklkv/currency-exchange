@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import Data from '../Converter/Data';
 
 const styles = {
   root: {
@@ -29,7 +27,7 @@ const styles = {
 };
 
 function FromCurrency(props) {
-  const { classes, currencies, name, selectFromCurrency } = props;
+  const { classes, currencies, name, selectCurrencyValue, selectCurrencyAmount, amount } = props;
   return (
     <Fragment>
       <Paper className={classes.root}>
@@ -39,7 +37,7 @@ function FromCurrency(props) {
           label='From'
           className={classes.dropField}
           value={name}
-          // onChange={selectFromCurrency()}
+          onChange={selectCurrencyValue('fromCurrency')}
           SelectProps={{
             native: true,
             MenuProps: {
@@ -57,12 +55,13 @@ function FromCurrency(props) {
         </TextField>
         <TextField
           id='from-input'
-          label='Amount'
+          label={amount}
           className={classes.textField}
           type='number'
           name='from'
           margin='normal'
           variant='outlined'
+          onChange={selectCurrencyAmount('fromCurrency')}
         />
       </Paper>
     </Fragment>

@@ -24,7 +24,7 @@ const styles = {
 };
 
 function ToCurrency(props) {
-  const { classes, currencies, name } = props;
+  const { classes, currencies, name, selectCurrencyValue, selectCurrencyAmount, amount } = props;
   return (
     <Fragment>
       <Paper className={classes.root}>
@@ -34,6 +34,7 @@ function ToCurrency(props) {
           label='To'
           className={classes.dropField}
           value={name}
+          onChange={selectCurrencyValue('toCurrency')}
           SelectProps={{
             native: true,
             MenuProps: {
@@ -51,12 +52,13 @@ function ToCurrency(props) {
         </TextField>
         <TextField
           id='from-input'
-          label='Amount'
+          label={amount}
           className={classes.textField}
           type='number'
           name='from'
           margin='normal'
           variant='outlined'
+          onChange={selectCurrencyAmount('toCurrency')}
         />
       </Paper>
     </Fragment>
