@@ -24,7 +24,7 @@ const styles = {
 };
 
 function ToCurrency(props) {
-  const { classes, currencies, name, selectCurrencyValue, selectCurrencyAmount, amount } = props;
+  const { classes, currencies, name, selectCurrencyValue, changeAmount, amount } = props;
   return (
     <Fragment>
       <Paper className={classes.root}>
@@ -58,7 +58,7 @@ function ToCurrency(props) {
           name='from'
           margin='normal'
           variant='outlined'
-          onChange={selectCurrencyAmount('toCurrency')}
+          onChange={changeAmount('toCurrency')}
         />
       </Paper>
     </Fragment>

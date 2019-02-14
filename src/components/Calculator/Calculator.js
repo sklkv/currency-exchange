@@ -26,13 +26,12 @@ class Calculator extends Component {
     fromCurrency: {
       name: 'USD',
       rate: '1',
-      amount: 'Amount',
     },
     toCurrency: {
       name: 'EUR',
       rate: '0.87435',
-      amount: 'Amount',
     },
+    amount: 1,
   };
 
   selectCurrencyValue = name => event => {
@@ -41,7 +40,6 @@ class Calculator extends Component {
         fromCurrency: {
           name: event.target.value,
           rate: quotes[`USD${event.target.value}`],
-          amount: this.state.fromCurrency.amount,
         },
       });
     } else if (name === 'toCurrency') {
@@ -49,80 +47,43 @@ class Calculator extends Component {
         toCurrency: {
           name: event.target.value,
           rate: quotes[`USD${event.target.value}`],
-          amount: this.state.toCurrency.amount,
         },
       });
     }
   };
 
-  selectCurrencyAmount = name => event => {
+  changeAmount = name => event => {
     if (name === 'fromCurrency') {
-      this.setState(
-        {
-          fromCurrency: {
-            name: this.state.fromCurrency.name,
-            rate: this.state.fromCurrency.rate,
-            amount: event.target.value,
-          },
-        },
-        this.calculate(name),
-      );
-    } else if (name === 'toCurrency') {
-      this.setState(
-        {
-          toCurrency: {
-            name: this.state.toCurrency.name,
-            rate: this.state.toCurrency.rate,
-            amount: event.target.value,
-          },
-        },
-        this.calculate(name),
-      );
-    }
-  };
-
-  calculate = name => {
-    if (name === 'fromCurrency') {
-      const toCurrencyValue =
-        (this.state.fromCurrency.amount * this.state.toCurrency.rate) / this.state.fromCurrency.rate;
       this.setState({
-        toCurrency: {
-          name: this.state.toCurrency.name,
-          rate: this.state.toCurrency.rate,
-          amount: toCurrencyValue,
-        },
+        amount: event.target.value / this.state.fromCurrency.rate,
       });
     } else if (name === 'toCurrency') {
-      const fromCurrencyValue =
-        (this.state.toCurrency.amount * this.state.fromCurrency.rate) / this.state.toCurrency.rate;
       this.setState({
-        fromCurrency: {
-          name: this.state.toCurrency.name,
-          rate: this.state.toCurrency.rate,
-          amount: fromCurrencyValue,
-        },
+        amount: event.target.value / this.state.toCurrency.rate,
       });
     }
   };
 
   render() {
     const { classes } = this.props;
-    const { fromCurrency, toCurrency } = this.state;
+    const { fromCurrency, toCurrency, amount } = this.state;
+    const fromCurrencyAmount = amount * fromCurrency.rate;
+    const toCurrencyAmount = amount * toCurrency.rate;
     return (
       <Paper className={classes.root}>
         <FromCurrency
           currencies={currencies}
           name={fromCurrency.name}
-          amount={fromCurrency.amount}
+          amount={fromCurrencyAmount}
           selectCurrencyValue={this.selectCurrencyValue}
-          selectCurrencyAmount={this.selectCurrencyAmount}
+          changeAmount={this.changeAmount}
         />
         <ToCurrency
           currencies={currencies}
           name={toCurrency.name}
-          amount={toCurrency.amount}
+          amount={toCurrencyAmount}
           selectCurrencyValue={this.selectCurrencyValue}
-          selectCurrencyAmount={this.selectCurrencyAmount}
+          changeAmount={this.changeAmount}
         />
       </Paper>
     );
